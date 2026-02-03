@@ -1,0 +1,14 @@
+{
+  "workflow_id": "daily_email_triage",
+  "description": "Stub workflow that opens mail client and captures screenshots.",
+  "steps": [
+    {
+      "command": "open_app",
+      "params": {"app_id": "outlook"}
+    },
+    {
+      "command": "screenshot",
+      "params": {"mode": "full"}
+    }
+  ]
+}

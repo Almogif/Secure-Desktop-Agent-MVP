@@ -1,10 +1,29 @@
-# Tester-Allocation-Tool
+# Secure Desktop Agent MVP
 
-The project was written in React, its purpose is to allow engineers to request a tester to work on it.
-The software requires the user to enter important details about the allocation.
-And then the request is saved and displayed on the website.
-This project helped us a lot because we progressed from an old and much less good method, 
-in which we did not know details about the allocation
-And as a result, the service was less good.
+This repository contains a security-first MVP for a Telegram-controlled desktop agent. The agent only executes strict JSON commands validated by schema and allowlists, and defaults to SAFE mode.
 
-![tat](https://user-images.githubusercontent.com/91954618/185141201-d76fcacc-306f-4c4d-be8b-fc8995b73e77.jpg)
+## Repo Layout
+
+- `agent/` - Python agent implementation.
+- `schemas/` - JSON schema for commands.
+- `workflows/` - Local workflow definitions.
+- `docs/` - Setup, threat model, examples, troubleshooting.
+- `tests/` - Unit tests for security controls.
+
+## Quick Start
+
+1. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+2. Set environment variables:
+   ```bash
+   export TELEGRAM_BOT_TOKEN="..."
+   export ALLOWED_TELEGRAM_USER_IDS="123456789"
+   ```
+3. Run the agent:
+   ```bash
+   python -m agent.main run
+   ```
+
+See `docs/setup.md` for detailed onboarding and security controls.

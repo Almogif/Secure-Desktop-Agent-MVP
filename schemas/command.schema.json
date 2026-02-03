@@ -1,0 +1,128 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Desktop Agent Command",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["request_id", "command", "params"],
+  "properties": {
+    "request_id": {
+      "type": "string",
+      "minLength": 8,
+      "maxLength": 64
+    },
+    "command": {
+      "type": "string",
+      "enum": ["open_app", "type_text", "click", "screenshot", "run_workflow", "status", "help"]
+    },
+    "params": {
+      "type": "object"
+    }
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"command": {"const": "open_app"}}},
+      "then": {
+        "properties": {
+          "params": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["app_id"],
+            "properties": {
+              "app_id": {"type": "string", "minLength": 1, "maxLength": 40}
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {"properties": {"command": {"const": "type_text"}}},
+      "then": {
+        "properties": {
+          "params": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["text"],
+            "properties": {
+              "text": {"type": "string", "minLength": 1, "maxLength": 500}
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {"properties": {"command": {"const": "click"}}},
+      "then": {
+        "properties": {
+          "params": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "window_title": {"type": "string", "minLength": 1, "maxLength": 120},
+              "target": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["by", "value"],
+                "properties": {
+                  "by": {"type": "string", "enum": ["automation_id", "name", "class_name"]},
+                  "value": {"type": "string", "minLength": 1, "maxLength": 120}
+                }
+              },
+              "coordinates": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["x", "y", "confirmed"],
+                "properties": {
+                  "x": {"type": "integer", "minimum": 0, "maximum": 3840},
+                  "y": {"type": "integer", "minimum": 0, "maximum": 2160},
+                  "confirmed": {"type": "boolean", "const": true}
+                }
+              }
+            },
+            "oneOf": [
+              {"required": ["target", "window_title"]},
+              {"required": ["coordinates"]}
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {"properties": {"command": {"const": "screenshot"}}},
+      "then": {
+        "properties": {
+          "params": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["mode"],
+            "properties": {
+              "mode": {"type": "string", "enum": ["full", "active"]}
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {"properties": {"command": {"const": "run_workflow"}}},
+      "then": {
+        "properties": {
+          "params": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["workflow_id"],
+            "properties": {
+              "workflow_id": {"type": "string", "minLength": 1, "maxLength": 80}
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {"properties": {"command": {"const": "status"}}},
+      "then": {"properties": {"params": {"type": "object", "additionalProperties": false}}}
+    },
+    {
+      "if": {"properties": {"command": {"const": "help"}}},
+      "then": {"properties": {"params": {"type": "object", "additionalProperties": false}}}
+    }
+  ]
+}
