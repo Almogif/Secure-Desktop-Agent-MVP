@@ -1,10 +1,26 @@
-# Tester-Allocation-Tool
+# Flow V0
 
-The project was written in React, its purpose is to allow engineers to request a tester to work on it.
-The software requires the user to enter important details about the allocation.
-And then the request is saved and displayed on the website.
-This project helped us a lot because we progressed from an old and much less good method, 
-in which we did not know details about the allocation
-And as a result, the service was less good.
+Flow is a quiet writing environment with inline AI suggestions and word-level annotations.
 
-![tat](https://user-images.githubusercontent.com/91954618/185141201-d76fcacc-306f-4c4d-be8b-fc8995b73e77.jpg)
+## Setup
+
+```bash
+npm install
+```
+
+Create a `.env.local` file with:
+
+```bash
+GEMINI_API_KEY=your_key_here
+```
+
+Run the app:
+
+```bash
+npm run dev
+```
+
+## Notes
+
+- Suggestions come from `/api/suggest` using the Gemini REST API.
+- Draft text and annotations are stored in localStorage.
